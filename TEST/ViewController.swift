@@ -95,12 +95,21 @@ extension ViewController : UITableViewDelegate , UITableViewDataSource , UISearc
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.dataSource = values
+        
+        if searchText == "" {
+            self.tableView.reloadData()
+            return
+        }
         var filteredDataSource : [[Item]] = []
         for items in dataSource {
             let filteredItems = items.filter { (item) -> Bool in
-                if item.title.lowercased().prefix(searchText.count) == searchText.lowercased() {
+                if item.title.contains(searchText) {
                     return true
                 }
+                
+//                if item.title.lowercased().prefix(searchText.count) == searchText.lowercased() {
+//                    return true
+//                }
                 return false
             }
             filteredDataSource.append(filteredItems)
